@@ -6,11 +6,16 @@ public class CharacterMoveController : MonoBehaviour
 {
     [SerializeField]
     private float moveSpeed = 5f;
+    [SerializeField]
+    private Transform camTransform;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (camTransform == null)
+        {
+            camTransform = Camera.main.transform;
+        }
     }
 
     // Update is called once per frame
@@ -18,6 +23,6 @@ public class CharacterMoveController : MonoBehaviour
     {
         float forwardDirection = Input.GetAxis("Vertical");
         float horizontalDirection = Input.GetAxis("Horizontal");
-        transform.position += new Vector3(horizontalDirection, 0, forwardDirection) * moveSpeed * Time.deltaTime;
+        transform.position += (camTransform.forward * forwardDirection + camTransform.right * horizontalDirection) * moveSpeed * Time.deltaTime;
     }
 }
